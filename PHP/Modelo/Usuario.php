@@ -40,6 +40,12 @@
                     "<br>Senha: ".$this->senha;
                     
         }//fim do metodo imprimir
+
+        public function validarLogin():string
+        {
+            
+        }
+
         
     }//fim da classe
 

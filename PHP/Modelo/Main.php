@@ -38,4 +38,6 @@
     echo "<br>";
     echo $Reserva2->imprimir();
 
+    
+
 ?>
