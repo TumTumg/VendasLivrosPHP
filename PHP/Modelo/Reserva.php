@@ -1,34 +1,32 @@
 <?php
-    namespace PHP\Modelo;
+namespace PHP\Modelo;
 
-    class Reserva{
-        protected string $produto;
-        protected string $email;
-        protected string $quantidade;
-        protected string $dataReserva;
+class Reserva {
+    protected string $produto;
+    protected string $email;
+    protected int $quantidade;
+    protected string $dataReserva;
 
-        public function __construct(string $produto,string $email, string $quantidade, string $dataReserva){
-            $this->produto = $produto;
-            $this->email = $email;
-            $this->quantidade = $quantidade;
-            $this->dataReserva = $dataReserva;
+    public function __construct(string $produto, string $email, int $quantidade, string $dataReserva) {
+        $this->produto = $produto;
+        $this->email = $email;
+        $this->quantidade = $quantidade;
+        $this->dataReserva = $dataReserva;
+    }
 
-        }//fim do construtor
+    public function __get(string $campo) {
+        return $this->$campo;
+    }
 
-        public function __get(string $nome){
-            return $this->nome;
-        }//fim do get 
+    public function __set(string $campo, string $valor) {
+        $this->$campo = $valor;
+    }
 
-        public function __set(string $campo, string $valor){
-            $this->campo = $valor;
-        }//fim do set
-
-        public function imprimir():string 
-        {
-            return "<br>Qual o Produto que irá querer fazer a Reserva? ".$this->produto.
-                    "<br>Digite o seu e-mail para notificação após ter no estoque: ".$this->email.
-                    "<br>Qual a quantidade que deseja? ".$this->quantidade.
-                    "<br>Qual a data que está realizando a reserva? ".$this->dataReserva;
-        }
-    }//fim da classe
+    public function imprimir(): string {
+        return "<br>Produto: " . $this->produto .
+               "<br>E-mail: " . $this->email .
+               "<br>Quantidade: " . $this->quantidade .
+               "<br>Data de Reserva: " . $this->dataReserva;
+    }
+}
 ?>
