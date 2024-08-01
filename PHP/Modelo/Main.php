@@ -54,13 +54,22 @@ echo "<br>";
 echo $livro2->imprimir();
 echo "<br>";
 
-// Criando compras
-$compra1 = new Compra('414646848686846', 'Fred', '02/27', '544');
-$compra2 = new Compra('46324684751476', 'Luiza', '03/43', '576');
-
-// Imprimindo compras
+// Criando compras e subtraindo estoque
+$compra1 = new Compra('414646848686846', 'Fred', '02/27', '544', 1);
+if ($livro1->subtrairEstoque($compra1->quantidade)) {
+    echo "Compra realizada com sucesso. Estoque atualizado para o livro: " . $livro1->tituloLivro . "<br>";
+} else {
+    echo "Estoque insuficiente para o livro: " . $livro1->tituloLivro . "<br>";
+}
 echo $compra1->imprimir();
 echo "<br>";
+
+$compra2 = new Compra('46324684751476', 'Luiza', '03/43', '576', 2);
+if ($livro2->subtrairEstoque($compra2->quantidade)) {
+    echo "Compra realizada com sucesso. Estoque atualizado para o livro: " . $livro2->tituloLivro . "<br>";
+} else {
+    echo "Estoque insuficiente para o livro: " . $livro2->tituloLivro . "<br>";
+}
 echo $compra2->imprimir();
 echo "<br>";
 

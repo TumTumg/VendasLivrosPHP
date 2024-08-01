@@ -29,6 +29,15 @@ class Livro {
         $this->$campo = $valor;
     }
 
+    // Método subtrairEstoque
+    public function subtrairEstoque(int $quantidade): bool {
+        if ($this->estoque >= $quantidade) {
+            $this->estoque -= $quantidade;
+            return true;
+        }
+        return false;
+    }
+
     // Método imprimir
     public function imprimir(): string {
         return "<br>Título do Livro: " . $this->tituloLivro .

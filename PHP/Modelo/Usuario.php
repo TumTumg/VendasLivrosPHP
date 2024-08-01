@@ -90,5 +90,6 @@ class Usuario {
         $usuario = self::encontrarUsuarioPorLogin($login);
         return $usuario && $usuario->senha === $senha;
     }
+
 }
 ?>
