@@ -319,23 +319,29 @@
     font-weight: 600;
   }
 
-  
-  /* style.css */
 
-/* Styles for the dropdown menu */
 .dropdown-menu.columns {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 columns */
-    gap: 1rem; /* Space between columns */
-    padding: 1rem;
-    width: auto; /* Adjust to fit content */
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 1rem; 
+  padding: 1rem;
+  width: auto; 
 }
 
 .dropdown-column {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .dropdown-item {
-    white-space: nowrap; /* Prevent text wrapping */
+  white-space: nowrap; 
+}
+
+
+.background {
+  background-image: url('../Imagens/fundoLivro.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
 }

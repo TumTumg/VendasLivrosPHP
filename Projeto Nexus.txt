@@ -1,0 +1,904 @@
+fazer um CRUD completo no VendasLivrosPHP
+cada parte do CRUD, será em classes diferentes de UMA DAO, Atualizar.php, conexao.php, Consultar.php, Excluir.php e Inserir.php
+
+Pasta Modelo na pasta PHP do projeto PHPPOOTI18N_Projeto:
+
+Cliente:
+
+<?php
+    namespace PHP\Modelo;
+
+    require_once('Endereco.php');
+
+    class Cliente extends Pessoa{
+        protected string $dataNascimento;
+        protected float $totalDeCompras;
+
+        public function __construct(string $cpf,
+                                    string $nome,
+                                    string $telefone,
+                                    Endereco $endereco,
+                                    string $dataNascimento,
+                                    float $totalDeCompras)
+        {
+            parent::__construct($cpf,$nome,$telefone,$endereco);
+            $this->dataNascimento = $dataNascimento;
+            $this->totalDeCompras = $totalDeCompras; 
+        }//fim do construtor
+
+        public function __get(string $nome){
+            return $this->nome;
+        }//fim do getTexto
+
+        public function __set(string $nomeVariavel,string $valor):void
+        {
+            $this->nomeVariavel = $valor;
+        }//fim do setTexto
+
+        public function imprimir():string
+        {
+            return parent::imprimir().
+                   "<br>Data de Nascimento: ".$this->dataNascimento.
+                   "<br>Total de Compras: ".$this->totalDeCompras;
+        }//fim do imprimir
+
+      
+
+
+
+    }//fim da classe
+?>
+
+Endereco:
+
+<?php
+    namespace PHP\Modelo;
+
+    class Endereco{
+        private string $logradouro;
+        private int $numero;
+        private string $bairro;
+        private string $cidade;
+        private string $estado;
+        private string $uf;
+        private string $pais;
+        private string $cep;
+
+        public function __construct(
+            string $logradouro,
+            int $numero,
+            string $bairro,
+            string $cidade,
+            string $estado,
+            string $uf,
+            string $pais,
+            string $cep)
+        {
+            $this->logradouro = $logradouro;
+            $this->numero     = $numero;
+            $this->bairro     = $bairro;
+            $this->cidade     = $cidade;
+            $this->estado     = $estado;
+            $this->uf         = $uf;
+            $this->pais       = $pais;
+            $this->cep        = $cep;
+        }//fim do construtor
+
+        //métodos de acesso
+        public function __get(string $nome){
+            return $nome;
+        }//fim do get genérico
+
+        public function __set(string $nome, string $valor):void{
+            $this->nome = $valor;
+        }//fim do set genérico
+
+        public function imprimir():string{
+            return "<br>Logradouro: ".$this->logradouro.
+                 "<br>Número: ".$this->numero.
+                 "<br>Bairro: ".$this->bairro.
+                 "<br>Cidade: ".$this->cidade.
+                 "<br>Estado: ".$this->estado.
+                 "<br>UF: ".$this->uf.
+                 "<br>País: ".$this->pais.
+                 "<br>CEP: ".$this->cep;
+        }//fim do método
+    }//fim da classe
+?>
+
+Funcionario:
+
+<?php
+    namespace PHP\Modelo;
+
+    require_once('Endereco.php');
+
+    class Funcionario extends Pessoa{ 
+        protected int $matricula;
+        protected float $salario;
+        protected string $cargo;
+
+        //Construtor
+        public function __construct(
+                                    string $cpf,
+                                    int $matricula, 
+                                    string $nome,
+                                    float $salario,
+                                    string $cargo, 
+                                    Endereco $endereco, 
+                                    string $telefone){
+            parent::__construct($cpf,$nome,$telefone,$endereco);
+            $this->matricula = $matricula;
+            $this->salario   = $salario;
+            $this->cargo     = $cargo;
+        }//fim do construct
+
+        public function __get(string $campo){
+            return $this->campo;
+        }//fim do get
+
+        public function __set(string $campo, string $valor):void{
+            $this->campo = $valor;
+        }//fim do get
+
+        public function imprimir():string
+        {
+            return parent::imprimir().
+                   "<br>Matrícula: ".$this->matricula.
+                   "<br>Cargo: ".$this->cargo.
+                   "<br>Salário: ".$this->salario;
+        }//fim do string
+
+
+
+
+
+
+
+
+               
+
+
+
+    }//fim da classe
+?>
+
+Main.php:
+
+<?php
+    namespace PHP\Modelo; //Definir o local do projeto
+    require_once('Pessoa.php');
+    require_once('Funcionario.php');
+    require_once('Cliente.php');
+    require_once('Endereco.php');
+    require_once('../DAO/conexao.php');
+    require_once('../DAO/Inserir.php');
+    require_once('../DAO/Consultar.php');
+    require_once("../DAO/Atualizar.php");
+    require_once("../DAO/Excluir.php");
+
+    use PHP\Modelo\DAO\Conexao;//Direcionar o arquivo
+    use PHP\Modelo\DAO\Inserir;
+    use PHP\Modelo\DAO\Consultar;
+    use PHP\Modelo\DAO\Atualizar;
+    use PHP\Modelo\DAO\Excluir;
+
+    $conexao = new Conexao();
+    $inserir = new Inserir();
+    $consultar = new Consultar();
+    $atualizar = new Atualizar();
+    $excluir   = new Excluir();
+    /*echo $inserir->cadastrarEndereco($conexao,
+                                 1,
+                                'Rua jiparana',
+                                123,
+                                'Berinni',
+                                'São Paulo',
+                                'São Paulo',
+                                'SP',
+                                'Brasil',
+                                '03586921');*/
+
+    /*echo $inserir->cadastrarCliente($conexao,
+                                '12345678910', 
+                                'Davi',
+                                '11981230912',
+                                '17/04/1989',
+                                1000,
+                                1);
+
+  /*                              
+    $enderecoCliente1 = new Endereco('Rua jiparana',
+                                     123,
+                                    'Berinni',
+                                    'São Paulo',
+                                    'São Paulo',
+                                    'SP',
+                                    'Brasil',
+                                    '03586921');
+
+    $cliente1 = new Cliente('12345678910', 
+                           'Davi',
+                           '11981230912',
+                            $enderecoCliente1,
+                            '17/04/1989',
+                            1000);
+
+    echo $cliente1->imprimir();
+    echo $enderecoCliente1->imprimir();
+
+    echo "<br><br>";
+
+    $enderecoFunc1 = new Endereco("Rua Jeri",
+                   123,
+                   "Realengo",
+                   "Rio de Janeiro",
+                   "Rio de Janeiro",
+                   "RJ",
+                   "Brasil",
+                   "01312312");
+
+    $funcionario1 = new Funcionario("12136598565",
+                                    123,
+                                    "Astolfo",
+                                    1256,
+                                    "Gerente",
+                                    $enderecoFunc1,
+                                    "1190909090");
+    
+    echo $funcionario1->imprimir();
+    echo $enderecoFunc1->imprimir();
+*/
+
+/*$consultar->ConsultarIndividual($conexao,
+                                'cliente',
+                                'cpf',
+                                '123');*/
+
+                                
+
+$consultar->ConsultarTudo($conexao,
+                          'cliente');
+                          
+$excluir->excluirCliente($conexao, "123");
+
+/*$atualizar->atualizarCliente($conexao,
+                            "nome",
+                            "Claudia",
+                            "123");*/
+
+
+
+
+?>
+
+Pessoa:
+
+<?php
+    namespace PHP\Modelo;
+
+    require_once('Endereco.php');
+
+    class Pessoa{
+        //Declarando as variáveis
+        protected string $cpf;
+        protected string $nome;
+        protected string $telefone;
+        protected Endereco $endereco;
+
+        //Método construtor
+        public function __construct(
+            string $cpf, 
+            string $nome, 
+            string $telefone, 
+            Endereco $endereco)
+        {
+            $this->cpf = $cpf;
+            $this->nome = $nome;
+            $this->telefone = $telefone;
+            $this->endereco = $endereco;
+        }//fim do construtor
+
+        public function __get(string $nome){
+            return $this->nome;
+        }//fim do getGenérico
+
+        public function __set(string $campo, string $valor):void{
+            $this->campo = $valor;
+        }//fim do set
+
+        public function imprimir():string
+        {
+            return "<br>CPF: ".$this->cpf.
+                   "<br>Nome: ".$this->nome.
+                   "<br>Telefone: ".$this->telefone;
+        }//fim do método imprimir
+
+
+
+
+
+
+
+    }//fim da classe
+
+
+
+
+
+
+
+
+
+
+?>
+
+Pasta DAO na pasta PHP:
+
+conexao:
+
+<?php
+    namespace PHP\Modelo\DAO;
+
+    class Conexao{
+
+
+        function conectar(){
+            try{
+                $conn = mysqli_connect('localhost', 'root','','phpTI18');
+                if($conn){
+                    echo "<br>Conectado com sucesso!";
+                    return $conn;
+                }
+                echo "<br>Algo deu errado!";
+
+            }catch(Except $erro){
+                return $erro;
+            }
+        }//fim do método
+    }//Fim do classe
+?>
+
+Atualizar:
+
+<?php
+    namespace PHP\Modelo\DAO;
+
+    use PHP\Modelo\DAO;
+    require_once('Conexao.php');
+    use PHP\Modelo\DAO\Conexao;
+
+    class Atualizar{
+
+        function atualizarCliente(
+            Conexao $conexao,
+            string $campo,
+            string $novoDado,
+            string $cpf
+        ){
+            try{
+                $conn = $conexao->conectar();
+                $sql =  "update cliente set 
+                    $campo = '$novoDado' where cpf = '$cpf'";
+                $result = mysqli_query($conn, $sql);
+
+                mysqli_close($conn);
+                if($result){
+                    echo "<br><br>Atualizado com sucesso!";
+                }else{
+                    "<br><br>Não foi possível atualizar!";
+                }
+            }catch(Exception $erro){
+                echo $erro;
+            }
+        }//Fim do método
+
+    }
+
+
+
+?>
+
+Consultar:
+
+<?php
+    namespace PHP\Modelo\DAO;
+    require_once('Conexao.php');
+    use PHP\Modelo\DAO\Conexao;
+    
+    class Consultar{
+        function ConsultarIndividual(
+            Conexao $conexao,
+            string $nomeTabela,
+            string $nomeCampo,
+            string $codigo
+        ){
+            try{
+                $conn   = $conexao->conectar();
+                $sql    = "select * from $nomeTabela where $nomeCampo = '$codigo'";
+                $result = mysqli_query($conn,$sql);
+
+                while($dados = mysqli_fetch_Array($result)){
+                    if($dados["cpf"] == $codigo){
+                        echo "\nCPF: ".$dados["cpf"].
+                             "\nNome: ".$dados['nome'].
+                             "\nTelefone: ".$dados["telefone"].
+                             "\nData de Nascimento: ".$dados["dtNascimento"].
+                             "\nTotal de Compras: ".$dados["totalDeCompras"];
+                        return;//Encerrando Processo
+                    }
+                    echo "CPF digitado não é válido";
+                }//Fim do enquanto
+            }catch(Exception $erro){
+                echo $erro;
+            }
+        }//fim do método
+
+
+        function ConsultarTudo(Conexao $conexao,
+                                string $nomeTabela
+        ){
+            try{
+                $conn = $conexao->conectar();
+                $sql  = "select * from $nomeTabela";
+                $result = mysqli_query($conn, $sql);
+
+                while($dados = mysqli_fetch_Array($result)){
+                    echo "<br>cpf: ".$dados["cpf"].
+                         "<br>Nome: ".$dados["nome"].
+                         "<br>Telefone: ".$dados["telefone"].
+                         "<br>Data de Nascimento: ".$dados["dtNascimento"].
+                         "<br>Total de Compras: ".$dados["totalDeCompras"];               
+                }
+            }catch(Except $erro){
+                echo $erro;
+            }
+
+        }
+    }
+
+?>
+
+Excluir:
+
+<?php
+    namespace PHP\Modelo\DAO;
+    require_once('Conexao.php');
+    use PHP\Modelo\DAO\Conexao;
+
+    class Excluir{
+
+        function excluirCliente(
+            Conexao $conexao,
+            string $cpf
+        )
+        {
+            try{
+                $conn = $conexao->conectar();
+                $sql = "delete from cliente where cpf = '$cpf'";
+                $result = mysqli_query($conn, $sql);
+
+                mysqli_close($conn);
+                if($result){
+                    echo "Excluído com sucesso!";
+                }else{
+                    echo "Não foi possível excluir!";
+                }
+            }catch (Exception $erro){
+                echo $erro;
+            }
+        }
+    }
+
+?>
+
+Inserir:
+
+<?php
+    namespace PHP\Modelo\DAO;
+
+    require_once('conexao.php');
+    require_once('../Modelo/Endereco.php');
+
+    use PHP\Modelo\DAO\Conexao;
+    use PHP\Modelo\Enderco; 
+
+    class Inserir{
+        public Conexao $conexao;
+        public string $tabela;
+        public string $cpf;
+        public string $nome;
+        public string $telefone;
+        public Endereco $endereco;
+        public string $dtNascimento;
+        public float $totalCompras;
+        public int $codEndereco;
+
+
+        function cadastrarCliente(
+            Conexao $conexao,
+            string $cpf,
+            string $nome,
+            string $telefone,
+            string $dtNascimento,
+            string $totalDeCompras,
+            string $codEndereco
+            )
+            {
+            try{
+                $conn = $conexao->conectar();//Abrir a conexao com o banco
+                $sql  = "Insert into cliente (cpf, nome, telefone, endereco, dtNascimento, totalDeCompras,codEndereco) 
+                values ('$cpf','$nome','$telefone','$dtNascimento','$totalDeCompras','$codEndereco')";
+                $result = mysqli_query($conn, $sql);
+
+                //Fechar a Conexao
+                mysqli_close($conn);
+
+                if($result){
+                    return "<br>Inserido com sucesso!";
+                }
+                return "<br>Não inserido!";
+
+            }catch(Except $erro){
+                return $erro;
+            }
+        }//Fim do método
+
+        function cadastrarEndereco(
+            Conexao $conexao,
+            int $codEndereco,
+            string $logradouro,
+            int $numero,
+            string $bairro,
+            string $cidade,
+            string $estado,
+            string $uf,
+            string $pais,
+            string $cep
+        )
+        {
+            try{
+                $conn = $conexao->conectar();
+                $sql = "insert into endereco (codigo, logradouro, numero, bairro, cidade, estado, uf, paoid, cep)
+                        values ('$codEndereco', '$logradouro', '$numero', '$bairro', '$cidade', '$estado', '$uf', '$pais', '$cep')";
+                $result = mysqli_query($conn, $sql);
+
+                //Fecha a conexão
+                mysqli_close($conn);
+
+                if($result){
+                    "<br>Endereco inserido com sucesso!";
+                }
+                "<br>Impossível inserir";
+            }catch(Exception $erro){
+            echo $erro;
+            }
+        }//Fim do método    
+
+
+
+
+    }//Fim da classe
+
+
+
+
+?>
+
+Isso tudo, será transformado para o seguinte projeto:
+
+Pasta Modelo no projeto VendasLivroPHP:
+
+Compra:
+
+<?php
+namespace PHP\Modelo;
+class Compra {
+   // Variáveis
+   protected string $numeroCartao;
+   protected string $nomeCartao;
+   protected string $validade;
+   protected string $codigo;
+   protected int $quantidade;
+   // Método Construtor
+   public function __construct(string $numeroCartao, string $nomeCartao, string $validade, string $codigo, int $quantidade) {
+       $this->numeroCartao = $numeroCartao;
+       $this->nomeCartao = $nomeCartao;
+       $this->validade = $validade;
+       $this->codigo = $codigo;
+       $this->quantidade = $quantidade;
+   }
+   // Métodos Get e Set
+   public function __get(string $campo) {
+       return $this->$campo;
+   }
+   public function __set(string $campo, string $valor) {
+       $this->$campo = $valor;
+   }
+   // Método imprimir
+   public function imprimir(): string {
+       return "<br>Número do Cartão: " . $this->numeroCartao .
+              "<br>Nome do Titular do Cartão: " . $this->nomeCartao .
+              "<br>Validade: " . $this->validade .
+              "<br>Código CVV: " . $this->codigo .
+              "<br>Quantidade: " . $this->quantidade;
+   }
+}
+?>
+
+Livros:
+
+<?php
+namespace PHP\Modelo;
+
+class Livro {
+    // Variáveis
+    protected string $tituloLivro;
+    protected int $anoLivro;
+    protected string $autor;
+    protected string $preco;
+    protected string $idioma;
+    protected int $estoque;
+
+    // Método Construtor
+    public function __construct(string $tituloLivro, int $anoLivro, string $autor, string $preco, string $idioma, int $estoque) {
+        $this->tituloLivro = $tituloLivro;
+        $this->anoLivro = $anoLivro;
+        $this->autor = $autor;
+        $this->preco = $preco;
+        $this->idioma = $idioma;
+        $this->estoque = $estoque;
+    }
+
+    // Métodos Get e Set
+    public function __get(string $campo) {
+        return $this->$campo;
+    }
+
+    public function __set(string $campo, string $valor) {
+        $this->$campo = $valor;
+    }
+
+    // Método subtrairEstoque
+    public function subtrairEstoque(int $quantidade): bool {
+        if ($this->estoque >= $quantidade) {
+            $this->estoque -= $quantidade;
+            return true;
+        }
+        return false;
+    }
+
+    // Método imprimir
+    public function imprimir(): string {
+        return "<br>Título do Livro: " . $this->tituloLivro .
+               "<br>Ano do Livro: " . $this->anoLivro .
+               "<br>Autor: " . $this->autor .
+               "<br>Preço: " . $this->preco .
+               "<br>Idioma: " . $this->idioma .
+               "<br>Estoque: " . $this->estoque;
+    }
+}
+?>
+
+Main:
+
+<?php
+namespace PHP\Modelo;
+
+require_once('../Modelo/Usuario.php');
+require_once('../Modelo/Livros.php');
+require_once('../Modelo/Compra.php');
+require_once('../Modelo/Reserva.php');
+
+// Criando usuários
+$usuario1 = new Usuario('Vitor', 'Rua Palestra Italia', '11988686684', '07/08/2006', 'vitor', 'sla');
+$usuario2 = new Usuario('Carlos', 'Rua Italia', '119887444', '18/02/1982', 'carlos', '123');
+
+// Adicionando usuários
+Usuario::adicionarUsuario($usuario1);
+Usuario::adicionarUsuario($usuario2);
+
+// Imprimindo todos os usuários
+foreach (Usuario::obterUsuarios() as $usuario) {
+    echo $usuario->imprimir();
+    echo "<br><br>";
+}
+
+// Validando login
+$loginValido = Usuario::validarLogin('vitor', 'sla');
+echo $loginValido ? "Login válido para Vitor.<br>" : "Login inválido para Vitor.<br>";
+
+$loginValido = Usuario::validarLogin('carlos', '123');
+echo $loginValido ? "Login válido para Carlos.<br>" : "Login inválido para Carlos.<br>";
+
+$loginValido = Usuario::validarLogin('joao', 'senha');
+echo $loginValido ? "Login válido para João.<br>" : "Login inválido para João.<br>";
+
+// Atualizando um usuário
+Usuario::atualizarUsuario('vitor', ['endereco' => 'Nova Rua', 'telefone' => '11999999999']);
+
+// Imprimindo usuário atualizado
+echo $usuario1->imprimir();
+echo "<br><br>";
+
+// Deletando um usuário
+Usuario::deletarUsuario('carlos');
+
+// Tentando imprimir usuário deletado
+$usuarioDeletado = Usuario::encontrarUsuarioPorLogin('carlos');
+echo $usuarioDeletado ? $usuarioDeletado->imprimir() : "Usuário Carlos foi deletado.<br>";
+
+// Criando livros
+$livro1 = new Livro('Cabeça Fria, Coração Quente', 2022, 'Abel Ferreira', '60,00', 'Português', 10);
+$livro2 = new Livro('Elon Musk', 2023, 'Walter Isaacson', '70,00', 'Inglês', 3);
+
+// Imprimindo livros
+echo $livro1->imprimir();
+echo "<br>";
+echo $livro2->imprimir();
+echo "<br>";
+
+// Criando compras e subtraindo estoque
+$compra1 = new Compra('414646848686846', 'Fred', '02/27', '544', 1);
+if ($livro1->subtrairEstoque($compra1->quantidade)) {
+    echo "Compra realizada com sucesso. Estoque atualizado para o livro: " . $livro1->tituloLivro . "<br>";
+} else {
+    echo "Estoque insuficiente para o livro: " . $livro1->tituloLivro . "<br>";
+}
+echo $compra1->imprimir();
+echo "<br>";
+
+$compra2 = new Compra('46324684751476', 'Luiza', '03/43', '576', 2);
+if ($livro2->subtrairEstoque($compra2->quantidade)) {
+    echo "Compra realizada com sucesso. Estoque atualizado para o livro: " . $livro2->tituloLivro . "<br>";
+} else {
+    echo "Estoque insuficiente para o livro: " . $livro2->tituloLivro . "<br>";
+}
+echo $compra2->imprimir();
+echo "<br>";
+
+// Criando reservas
+$reserva1 = new Reserva('Cabeça Fria, Coração Quente', 'pedrolopes@gmail.com', 1, '25/08');
+$reserva2 = new Reserva('Elon Musk', 'algumacoisa@gmail.com', 3, '29/07');
+
+// Imprimindo reservas
+echo $reserva1->imprimir();
+echo "<br>";
+echo $reserva2->imprimir();
+echo "<br>";
+?>
+
+Reserva:
+
+<?php
+namespace PHP\Modelo;
+
+class Reserva {
+    protected string $produto;
+    protected string $email;
+    protected int $quantidade;
+    protected string $dataReserva;
+
+    public function __construct(string $produto, string $email, int $quantidade, string $dataReserva) {
+        $this->produto = $produto;
+        $this->email = $email;
+        $this->quantidade = $quantidade;
+        $this->dataReserva = $dataReserva;
+    }
+
+    public function __get(string $campo) {
+        return $this->$campo;
+    }
+
+    public function __set(string $campo, string $valor) {
+        $this->$campo = $valor;
+    }
+
+    public function imprimir(): string {
+        return "<br>Produto: " . $this->produto .
+               "<br>E-mail: " . $this->email .
+               "<br>Quantidade: " . $this->quantidade .
+               "<br>Data de Reserva: " . $this->dataReserva;
+    }
+}
+?>
+
+Usuario:
+
+<?php
+namespace PHP\Modelo;
+
+class Usuario {
+    // Variáveis
+    protected string $nome;
+    protected string $endereco;
+    protected string $telefone;
+    protected string $dataNasc;
+    protected string $login;
+    protected string $senha;
+
+    // Armazenamento de usuários
+    private static array $usuarios = [];
+
+    // Método Construtor
+    public function __construct(string $nome, string $endereco, string $telefone, string $dataNasc, string $login, string $senha) {
+        $this->nome = $nome;
+        $this->endereco = $endereco;
+        $this->telefone = $telefone;
+        $this->dataNasc = $dataNasc;
+        $this->login = $login;
+        $this->senha = $senha;
+    }
+
+    // Métodos Get e Set
+    public function __get(string $campo) {
+        return $this->$campo;
+    }
+
+    public function __set(string $campo, string $valor) {
+        $this->$campo = $valor;
+    }
+
+    // Método imprimir
+    public function imprimir(): string {
+        return "<br>Nome: " . $this->nome .
+               "<br>Endereço: " . $this->endereco .
+               "<br>Telefone: " . $this->telefone .
+               "<br>Data de Nascimento: " . $this->dataNasc .
+               "<br>Login: " . $this->login .
+               "<br>Senha: " . $this->senha;
+    }
+
+    // Método para adicionar um usuário
+    public static function adicionarUsuario(Usuario $usuario) {
+        self::$usuarios[] = $usuario;
+    }
+
+    // Método para obter todos os usuários
+    public static function obterUsuarios(): array {
+        return self::$usuarios;
+    }
+
+    // Método para encontrar um usuário por login
+    public static function encontrarUsuarioPorLogin(string $login): ?Usuario {
+        foreach (self::$usuarios as $usuario) {
+            if ($usuario->login === $login) {
+                return $usuario;
+            }
+        }
+        return null;
+    }
+
+    // Método para atualizar um usuário
+    public static function atualizarUsuario(string $login, array $novosDados): bool {
+        $usuario = self::encontrarUsuarioPorLogin($login);
+        if ($usuario) {
+            foreach ($novosDados as $campo => $valor) {
+                $usuario->__set($campo, $valor);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    // Método para deletar um usuário
+    public static function deletarUsuario(string $login): bool {
+        foreach (self::$usuarios as $key => $usuario) {
+            if ($usuario->login === $login) {
+                unset(self::$usuarios[$key]);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Método para validar login
+    public static function validarLogin(string $login, string $senha): bool {
+        $usuario = self::encontrarUsuarioPorLogin($login);
+        return $usuario && $usuario->senha === $senha;
+    }
+
+}
+?>
+
+ 
