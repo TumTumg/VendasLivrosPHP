@@ -345,3 +345,98 @@
   background-repeat: no-repeat;
   min-height: 100vh;
 }
+
+
+/* From Uiverse.io by gharsh11032000 */
+.card {
+  position: center;
+  width: 193px;
+  height: 258px;
+  background-color: #000;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  padding: 12px;
+  gap: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+
+.heading {
+  font-size: 20px;
+  text-transform: capitalize;
+  font-weight: 700;
+}
+
+.card p:not(.heading) {
+  font-size: 14px;
+}
+
+.card p:last-child {
+  color: #e81cff;
+  font-weight: 600;
+}
+
+/* Define o fundo da página como preto */
+body {
+  background: linear-gradient(-45deg, #fce300 0%, #ff4800 100% );
+}
+
+.btn-add-to-cart {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #101111;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.btn-add-to-cart:hover {
+  background-color: #a5450d;
+  transform: scale(1.05);
+}
+
+.btn-add-to-cart .button-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.btn-add-to-cart .text {
+  margin-right: 10px;
+}
+
+.btn-add-to-cart .icon {
+  display: flex;
+  align-items: center;
+}
+
+.btn-add-to-cart[data-tooltip]:hover::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 5px;
+  border-radius: 4px;
+  white-space: nowrap;
+  font-size: 12px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.btn-add-to-cart[data-tooltip]:hover::before {
+  opacity: 1;
+}
+
+
