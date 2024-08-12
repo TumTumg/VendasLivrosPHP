@@ -1,6 +1,13 @@
 <?php
 namespace PHP\Modelo;
 
+session_start();
+
+if (!isset($_SESSION['username'])) {
+    header('Location: login.html');
+    exit;
+}
+
 require_once('../DAO/conexao.php');
 require_once('../DAO/Inserir.php');
 require_once('../DAO/Consultar.php');
@@ -20,22 +27,24 @@ $consultar = new Consultar();
 $atualizar = new Atualizar();
 $excluir = new Excluir();
 
-// Inserir Livro
-echo $inserir->cadastrarLivro($conexao, 'PHP Programming', 2024, 'John Doe', '100.00', 'Português', 50);
+// Inserir Livros e Mangás
+echo $inserir->cadastrarLivro($conexao, 'Demon Slayer Vol 1', 2024, 'Autor Desconhecido', '26.00', 'Português', 50);
+echo $inserir->cadastrarLivro($conexao, 'Berserk Vol 1', 2024, 'Autor Desconhecido', '34.00', 'Português', 50);
+echo $inserir->cadastrarLivro($conexao, 'Death Note Vol 1', 2024, 'Autor Desconhecido', '70.00', 'Português', 50);
+echo $inserir->cadastrarLivro($conexao, 'Percy Jackson', 2024, 'Rick Riordan', '71.00', 'Português', 50);
+echo $inserir->cadastrarLivro($conexao, 'Diário De Um Banana', 2024, 'Jeff Kinney', '59.00', 'Português', 50);
 
-// Consultar Livro
-$livro = $consultar->consultarLivro($conexao, 'PHP Programming');
-print_r($livro);
+// Consultar Livros Inseridos
+$livros = [
+    'Demon Slayer Vol 1',
+    'Berserk Vol 1',
+    'Death Note Vol 1',
+    'Percy Jackson',
+    'Diário De Um Banana'
+];
 
-// Atualizar Livro
-echo $atualizar->atualizarLivro($conexao, 'preco', '120.00', 'PHP Programming');
-
-// Excluir Livro
-echo $excluir->excluirLivro($conexao, 'PHP Programming');
-
-// Consultar Todas as Compras
-$compras = $consultar->consultarTodasCompras($conexao);
-foreach ($compras as $compra) {
-    print_r($compra);
+foreach ($livros as $livro) {
+    $result = $consultar->consultarLivro($conexao, $livro);
+    print_r($result);
 }
 ?>
