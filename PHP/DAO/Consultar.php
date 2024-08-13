@@ -1,44 +1,34 @@
 <?php
 namespace PHP\Modelo\DAO;
 
-require_once('Conexao.php');
+require_once('conexao.php');
 use PHP\Modelo\DAO\Conexao;
 
 class Consultar {
-    public function consultarCompras(Conexao $conexao) {
+    public function ConsultarTudo(Conexao $conexao, string $tabela) {
         try {
             $conn = $conexao->conectar();
-            $sql = "SELECT * FROM compra";
-            $result = mysqli_query($conn, $sql);
-            while ($dados = mysqli_fetch_Array($result)) {
-                echo "<br>Número do Cartão: " . $dados["numeroCartao"] .
-                     "<br>Nome do Titular do Cartão: " . $dados["nomeCartao"] .
-                     "<br>Validade: " . $dados["validade"] .
-                     "<br>Código CVV: " . $dados["codigo"] .
-                     "<br>Quantidade: " . $dados["quantidade"];
+            if ($conn === null) {
+                throw new \Exception("Erro na conexão com o banco de dados.");
             }
-            mysqli_close($conn);
-        } catch (Exception $erro) {
-            echo $erro->getMessage();
-        }
-    }
 
-    public function consultarLivros(Conexao $conexao) {
-        try {
-            $conn = $conexao->conectar();
-            $sql = "SELECT * FROM livro";
+            $sql = "SELECT * FROM $tabela";
             $result = mysqli_query($conn, $sql);
-            while ($dados = mysqli_fetch_Array($result)) {
-                echo "<br>Título do Livro: " . $dados["titulo"] .
-                     "<br>Ano do Livro: " . $dados["ano"] .
-                     "<br>Autor: " . $dados["autor"] .
-                     "<br>Preço: " . $dados["preco"] .
-                     "<br>Idioma: " . $dados["idioma"] .
-                     "<br>Estoque: " . $dados["estoque"];
+
+            if (!$result) {
+                throw new \Exception("Erro ao executar a query: " . mysqli_error($conn));
             }
+
+            while ($row = mysqli_fetch_assoc($result)) {
+                foreach ($row as $key => $value) {
+                    echo "$key: $value<br>";
+                }
+                echo "<br>";
+            }
+
             mysqli_close($conn);
-        } catch (Exception $erro) {
-            echo $erro->getMessage();
+        } catch (\Exception $erro) {
+            echo "<br>Erro ao consultar dados: " . $erro->getMessage();
         }
     }
 }

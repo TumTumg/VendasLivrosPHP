@@ -1,31 +1,28 @@
 <?php
 namespace PHP\Modelo\DAO;
 
-require_once('Conexao.php');
+require_once('conexao.php');
 use PHP\Modelo\DAO\Conexao;
 
 class Excluir {
-    public function excluirCompra(Conexao $conexao, int $id) {
+    public function excluirLivro(Conexao $conexao, string $tituloLivro) {
         try {
             $conn = $conexao->conectar();
-            $sql = "DELETE FROM compra WHERE id = $id";
-            $result = mysqli_query($conn, $sql);
-            mysqli_close($conn);
-            return $result ? "<br>Compra excluída com sucesso!" : "<br>Falha ao excluir compra!";
-        } catch (Exception $erro) {
-            return $erro->getMessage();
-        }
-    }
+            if ($conn === null) {
+                throw new \Exception("Erro na conexão com o banco de dados.");
+            }
 
-    public function excluirLivro(Conexao $conexao, int $id) {
-        try {
-            $conn = $conexao->conectar();
-            $sql = "DELETE FROM livro WHERE id = $id";
+            $sql = "DELETE FROM livro WHERE tituloLivro = '$tituloLivro'";
             $result = mysqli_query($conn, $sql);
+
+            if (!$result) {
+                throw new \Exception("Erro ao executar a query: " . mysqli_error($conn));
+            }
+
             mysqli_close($conn);
-            return $result ? "<br>Livro excluído com sucesso!" : "<br>Falha ao excluir livro!";
-        } catch (Exception $erro) {
-            return $erro->getMessage();
+            return "<br>Livro excluído com sucesso!";
+        } catch (\Exception $erro) {
+            return "<br>Falha ao excluir livro: " . $erro->getMessage();
         }
     }
 }

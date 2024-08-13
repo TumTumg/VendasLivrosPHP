@@ -1,20 +1,20 @@
 <?php
-    namespace PHP\Modelo\DAO;
+namespace PHP\Modelo\DAO;
 
-    class Conexao{
+class Conexao {
+    public function conectar() {
+        $host = 'localhost'; // ou o IP do servidor de banco de dados
+        $usuario = 'root'; // ou o nome de usuário do banco de dados
+        $senha = ''; // ou a senha do banco de dados
+        $banco = 'VendaLivrosDB'; // Nome correto do banco de dados
 
-        function conectar(){
-            try{
-                $conn = mysqli_connect('localhost', 'root','','vendasLivros');
-                if($conn){
-                    echo "<br>Conectado com sucesso!";
-                    return $conn;
-                }
-                echo "<br>Algo deu errado!";
+        $conn = mysqli_connect($host, $usuario, $senha, $banco);
 
-            }catch(Except $erro){
-                return $erro;
-            }
-        }//fim do método
-    }//Fim do classe
+        if (!$conn) {
+            die('Conexão falhou: ' . mysqli_connect_error());
+        }
+
+        return $conn;
+    }
+}
 ?>

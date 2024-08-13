@@ -338,13 +338,7 @@
 }
 
 
-.background {
-  background-image: url('../Imagens/fundoLivro.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  min-height: 100vh;
-}
+
 
 
 /* From Uiverse.io by gharsh11032000 */
