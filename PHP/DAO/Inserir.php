@@ -12,6 +12,14 @@ class Inserir {
                 throw new \Exception("Erro na conexão com o banco de dados.");
             }
 
+            // Verifica se o livro já existe
+            $checkSql = "SELECT * FROM livro WHERE tituloLivro = '$titulo'";
+            $checkResult = mysqli_query($conn, $checkSql);
+
+            if (mysqli_num_rows($checkResult) > 0) {
+                throw new \Exception("Livro já cadastrado no banco de dados.");
+            }
+
             $sql = "INSERT INTO livro (tituloLivro, anoLivro, autor, preco, idioma, estoque) 
                     VALUES ('$titulo', '$ano', '$autor', '$preco', '$idioma', '$estoque')";
             $result = mysqli_query($conn, $sql);

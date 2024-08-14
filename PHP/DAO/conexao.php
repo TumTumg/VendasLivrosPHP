@@ -3,15 +3,15 @@ namespace PHP\Modelo\DAO;
 
 class Conexao {
     public function conectar() {
-        $host = 'localhost'; // ou o IP do servidor de banco de dados
-        $usuario = 'root'; // ou o nome de usuário do banco de dados
-        $senha = ''; // ou a senha do banco de dados
-        $banco = 'VendaLivrosDB'; // Nome correto do banco de dados
+        $host = 'localhost';
+        $usuario = 'root';
+        $senha = '';
+        $banco = 'VendaLivrosDB';
 
-        $conn = mysqli_connect($host, $usuario, $senha, $banco);
+        $conn = new \mysqli($host, $usuario, $senha, $banco);
 
-        if (!$conn) {
-            die('Conexão falhou: ' . mysqli_connect_error());
+        if ($conn->connect_error) {
+            die('Conexão falhou: ' . $conn->connect_error);
         }
 
         return $conn;
