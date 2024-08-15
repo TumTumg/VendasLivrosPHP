@@ -2,6 +2,6 @@
 session_start();
 session_unset();
 session_destroy();
-header("Location: ../DAO/index.php");
+header("Location: ../../HTML/login.html");
 exit();
 ?>

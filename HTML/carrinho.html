@@ -95,12 +95,14 @@
             </div>
 
             <!-- Resumo do pedido -->
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Resumo do Pedido</h5>
-                        <p class="card-text">Total: R$ 130,00</p>
-                        <button class="btn btn-success btn-lg btn-block">Finalizar Compra</button>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Resumo do Pedido</h5>
+                            <p class="card-text">Total: R$ 130,00</p>
+                            <!-- Botão que redireciona para checkout.php ao ser clicado -->
+                            <button class="btn btn-success btn-lg btn-block" onclick="window.location.href='../PHP/DAO/checkout.php'">Finalizar Compra</button>
+                        </div>
                     </div>
                 </div>
             </div>

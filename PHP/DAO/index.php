@@ -24,8 +24,8 @@ session_start();
         <p>Bem-vindo ao sistema Nexus.</p>
 
         <?php if (isset($_SESSION['username'])): ?>
-            <a href="../PHP/DAO/dashboard.php" class="btn btn-primary">Ir para o Dashboard</a>
-            <a href="../PHP/logout.php" class="btn btn-danger">Sair</a>
+            <a href="../DAO/dashboard.php" class="btn btn-primary">Ir para o Dashboard</a>
+            <a href="../DAO/logout.php" class="btn btn-danger">Sair</a>
             <a href="../../HTML/index.html" class="btn btn-secondary">Página Inicial</a>
         <?php else: ?>
             <a href="../PHP/login.php" class="btn btn-primary">Login</a>
