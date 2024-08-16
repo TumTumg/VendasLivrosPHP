@@ -80,6 +80,7 @@ SELECT * FROM usuarios WHERE username = 'SHA2';  -- Isso não deve retornar nenh
 
 
 SELECT * FROM usuarios;
+SELECT * FROM compra;
 
 
 ALTER TABLE usuarios ADD COLUMN dataNasc DATE DEFAULT '1900-01-01';
@@ -100,6 +101,11 @@ SET SQL_SAFE_UPDATES = 0;
 UPDATE usuarios SET dataNasc = '1900-01-01' WHERE dataNasc = '0000-00-00';
 
 SET SQL_SAFE_UPDATES = 1;
+
+ALTER TABLE usuarios
+CHANGE COLUMN username login VARCHAR(255) NOT NULL;
+
+
 
 
 
