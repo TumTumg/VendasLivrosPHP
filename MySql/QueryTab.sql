@@ -78,3 +78,34 @@ SELECT * FROM usuarios WHERE username = 'user1';
 SELECT * FROM usuarios WHERE username = 'SHA2';  -- Isso não deve retornar nenhum resultado se 'SHA2' não é um usuário válido.
 
 
+
+SELECT * FROM usuarios;
+
+
+ALTER TABLE usuarios ADD COLUMN dataNasc DATE DEFAULT '1900-01-01';
+
+UPDATE usuarios SET dataNasc = '1900-01-01' WHERE dataNasc = '0000-00-00';
+
+ALTER TABLE usuarios MODIFY COLUMN dataNasc DATE NOT NULL;
+
+ALTER TABLE usuarios
+ADD COLUMN nome VARCHAR(100) NOT NULL,
+ADD COLUMN endereco VARCHAR(255) NOT NULL,
+ADD COLUMN telefone VARCHAR(20) NOT NULL,
+ADD COLUMN reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+
+
+SET SQL_SAFE_UPDATES = 0;
+
+UPDATE usuarios SET dataNasc = '1900-01-01' WHERE dataNasc = '0000-00-00';
+
+SET SQL_SAFE_UPDATES = 1;
+
+
+
+
+
+
+
+
+

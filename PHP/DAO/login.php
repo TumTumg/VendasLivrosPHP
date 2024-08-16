@@ -1,53 +1,71 @@
 <?php
-session_start();
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Exemplo de validação de usuário
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+session_start(); // Inicia a sessão
 
-    // Substitua com sua lógica de autenticação real
-    if ($username == 'admin' && $password == 'password') {
-        $_SESSION['username'] = $username;
-        header("Location: index.php?login_success=true");
-        exit();
+// Configurações do banco de dados
+$servername = "localhost";
+$username = "root"; // Substitua por seu usuário do banco de dados
+$password = ""; // Substitua pela senha do banco de dados
+$dbname = "VendaLivrosDB";
+
+// Criando a conexão com o banco de dados
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Verificando a conexão
+if ($conn->connect_error) {
+    die("Falha na conexão: " . $conn->connect_error);
+}
+
+// Verificando se o formulário foi enviado via POST
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Verifique se os dados estão sendo recebidos
+    if (isset($_POST['login']) && isset($_POST['password'])) {
+        $login = $_POST['login'];
+        $password = $_POST['password'];
+
+        // Debug: Exiba os dados recebidos
+        // echo "Login recebido: " . htmlspecialchars($login) . "<br>";
+        // echo "Password recebido: " . htmlspecialchars($password) . "<br>";
+
+        // Preparando a consulta SQL para verificar as credenciais
+        $sql = "SELECT id, password FROM usuarios WHERE login = ?";
+        $stmt = $conn->prepare($sql);
+
+        if ($stmt === false) {
+            die("Erro ao preparar a consulta: " . $conn->error);
+        }
+
+        $stmt->bind_param("s", $login);
+        $stmt->execute();
+        $stmt->store_result();
+
+        // Verificando se o usuário existe
+        if ($stmt->num_rows == 1) {
+            $stmt->bind_result($id, $hashed_password);
+            $stmt->fetch();
+
+            // Verificando a senha
+            if (password_verify($password, $hashed_password)) {
+                // Iniciando a sessão do usuário
+                $_SESSION['loggedin'] = true;
+                $_SESSION['user_id'] = $id;
+                $_SESSION['username'] = $login;
+
+                // Redirecionando para a página inicial após o login
+                header("Location: ../../HTML/indexLogado.html");
+                exit();
+            } else {
+                echo "Senha incorreta.";
+            }
+        } else {
+            echo "Usuário não encontrado.";
+        }
+
+        // Fechando a conexão
+        $stmt->close();
     } else {
-        $error_message = "Usuário ou senha inválidos!";
+        echo "Dados do formulário não recebidos.";
     }
 }
+
+$conn->close();
 ?>
-
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <title>Login - Nexus</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="../CSS/style.css">
-</head>
-<body class="bg-dark text-light">
-    <div class="container mt-5">
-        <h1 class="mt-5">Login</h1>
-
-        <?php if (isset($error_message)): ?>
-            <div class="alert alert-danger">
-                <?php echo htmlspecialchars($error_message); ?>
-            </div>
-        <?php endif; ?>
-
-        <form method="post" action="">
-            <div class="mb-3">
-                <label for="username" class="form-label">Nome de Usuário</label>
-                <input type="text" class="form-control" id="username" name="username" required>
-            </div>
-            <div class="mb-3">
-                <label for="password" class="form-label">Senha</label>
-                <input type="password" class="form-control" id="password" name="password" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Entrar</button>
-        </form>
-    </div>
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
-</body>
-</html>

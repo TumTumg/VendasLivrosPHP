@@ -78,7 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                             <span class="info">* CVV ou CVC é o código de segurança do cartão, três dígitos únicos na parte traseira do seu cartão.</span>
                         </div>
-                    </div>
+                    </div><br><br>
 
                     <div class="submit-group">
                         <button type="button" class="btn back-btn" onclick="history.back();">Voltar</button>

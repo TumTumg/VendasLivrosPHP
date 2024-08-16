@@ -1,0 +1,59 @@
+/* Adiciona cor de fundo laranja para o corpo da página */
+body {
+    background-color: #ff6600;
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilo da navbar */
+.navbar {
+    margin-bottom: 20px;
+}
+
+.navbar-brand img {
+    width: 120px;
+    height: 120px;
+}
+
+/* Estilo do formulário de cadastro */
+.container {
+    width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+form label {
+    display: block;
+    margin: 10px 0 5px;
+    color: #333;
+}
+
+form input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}

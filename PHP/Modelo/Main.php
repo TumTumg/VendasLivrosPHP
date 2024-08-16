@@ -31,7 +31,11 @@ $livros = [
     ['Death Note Vol 1', 2024, 'Autor Desconhecido', '70.00', 'Português', 50],
     ['Percy Jackson', 2024, 'Rick Riordan', '71.00', 'Português', 50],
     ['Diário De Um Banana', 2024, 'Jeff Kinney', '59.00', 'Português', 50],
+    ['O Jardim das Aflições', 2015, 'Olavo de Carvalho', '109.90', 'Português', 34],  // Preço alterado para o novo valor
+    ['Bitcoin Redpill', 2022, 'Alan Schramm, Renato Amoedo', '89.90', 'Português', 50],  // Preço e autores adicionados
+    ['Matrix', 2024, 'Autor Desconhecido', '79.90', 'Português', 50]  // Adicionei o livro "Matrix" com o preço e a quantidade padrão
 ];
+
 
 foreach ($livros as $livro) {
     echo $inserir->cadastrarLivro($conexao, ...$livro);

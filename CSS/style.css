@@ -577,3 +577,67 @@ border-radius: 0px; /* Bordas arredondadas */
 .text-center {
   text-align: center;
 }
+
+/* Social Media Icons Section */
+.social-icons-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.social-icons {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+.social-icon-item {
+    margin: 0 10px;
+    position: relative;
+}
+
+.social-icon-item a {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    background-color: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    line-height: 32px;
+    color: #333;
+    transition: background-color 0.3s, color 0.3s;
+    text-decoration: none;
+}
+
+.social-icon-item a:hover {
+    background-color: #333;
+    color: #fff;
+}
+
+.social-icon-item .icon-background {
+    display: none;
+}
+
+.social-icon-item svg {
+    vertical-align: middle;
+}
+
+.tooltip {
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.social-icon-item:hover .tooltip {
+    opacity: 1;
+}

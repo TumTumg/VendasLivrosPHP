@@ -1,0 +1,90 @@
+/* Adiciona cor de fundo laranja para o corpo da página */
+body {
+    background-color: #ff6600;
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilo da navbar */
+.navbar {
+    margin-bottom: 20px;
+}
+
+.navbar-brand img {
+    width: 120px;
+    height: 120px;
+}
+
+/* Estilo do formulário de cadastro */
+.container {
+    width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+form label {
+    display: block;
+    margin: 10px 0 5px;
+    color: #333;
+}
+
+form input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Estilo para o botão de "Voltar à Página Inicial" */
+.btn-back {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #ffffff; /* Cor do texto */
+    background-color: #007bff; /* Cor de fundo do botão */
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+    text-align: center;
+}
+
+.btn-back:hover {
+    background-color: #0056b3; /* Cor de fundo ao passar o mouse */
+    color: #ffffff; /* Cor do texto ao passar o mouse */
+}
+
+.btn-back:active {
+    background-color: #004085; /* Cor de fundo ao clicar */
+    color: #ffffff; /* Cor do texto ao clicar */
+}
+
+.btn-back:focus {
+    outline: none; /* Remove o contorno padrão ao focar */
+    box-shadow: 0 0 0 2px rgba(38, 143, 255, 0.5); /* Adiciona uma sombra ao foco */
+}
+
